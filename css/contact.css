@@ -27,8 +27,8 @@
 .map-frame iframe {
   position: absolute;
   top: 0;
-  left: -180px; /* 필요하면 이 값 조절해서 위치 미세 조정 */
-  width: 800px;
+  left: -480px; /* 필요하면 이 값 조절해서 위치 미세 조정 */
+  width: 1200px;
   height: 260px;
   border: 0;
 }
@@ -37,6 +37,32 @@
   margin-top: 8px;
   font-size: 13px;
   color: #555;
+}
+
+/* 네이버 지도 버튼 기본은 안 보이게 */
+.map-link {
+  display: none;
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--main-color);
+  text-decoration: underline;
+}
+
+/* 휴대폰에서는 iframe 숨기고 버튼만 보이게 */
+@media (max-width: 767px) {
+  .map-frame {
+    height: auto;
+    border: none;
+    overflow: visible;
+  }
+
+  .map-frame iframe {
+    display: none;
+  }
+
+  .map-link {
+    display: inline-block;
+  }
 }
 
 @media (min-width: 768px) {
