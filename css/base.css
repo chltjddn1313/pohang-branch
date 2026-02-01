@@ -275,3 +275,33 @@ img {
     grid-template-columns: 1.1fr 1fr;
   }
 }
+
+/* 🔽 767px 이하(휴대폰)일 때 헤더/메뉴 정리 */
+@media (max-width: 767px) {
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    padding: 8px 0 10px;
+  }
+
+  .logo-main {
+    font-size: 14px;
+  }
+
+  .logo-sub {
+    font-size: 11px;
+  }
+
+  .nav {
+    margin-top: 6px;
+    display: flex;
+    flex-wrap: wrap;       /* 줄 바꿈 허용 */
+    gap: 4px 10px;         /* 위아래/좌우 간격 */
+  }
+
+  .nav a {
+    margin: 0;             /* 왼쪽 마진 제거 */
+    font-size: 13px;       /* 글자 조금 줄이기 */
+  }
+}
