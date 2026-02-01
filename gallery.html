@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>갤러리 - 한국실버건강지도자협회 포항지부</title>
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/gallery.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <div class="logo">
+        <img src="images/logo.png" alt="한국실버건강지도자협회 로고" />
+        <div class="logo-text">
+          <span class="logo-main">한국실버건강지도자협회</span>
+          <span class="logo-sub">포항지부</span>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="index.html">홈</a>
+        <a href="about.html">지부소개</a>
+        <a href="course.html">교육과정</a>
+        <a href="schedule.html">교육일정</a>
+        <a href="gallery.html">갤러리</a>
+        <a href="contact.html">오시는 길/문의</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section section-alt">
+      <div class="container">
+        <h2 class="section-title">활동 갤러리</h2>
+        <p class="section-desc">
+          사진을 선택하면 아래에 앨범 형식으로 미리보기가 생성됩니다.
+          (연습용으로, 새로고침하면 업로드 내용은 초기화됩니다.)
+        </p>
+
+        <div class="upload-panel">
+          <label for="galleryUpload" class="upload-label">
+            사진 선택하기
+          </label>
+          <input
+            id="galleryUpload"
+            type="file"
+            accept="image/*"
+            multiple
+          />
+          <p class="upload-help">
+            * 여러 장 선택 가능 (이미지 파일만)<br />
+            * 실제 저장은 되지 않고, 현재 브라우저에서만 보입니다.
+          </p>
+        </div>
+
+        <div id="galleryGrid" class="gallery-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>한국실버건강지도자협회 포항지부</p>
+      <p class="footer-info">
+        포항시 남구 오천읍 정몽주로 615, 3층 · 전화 010-2264-1088
+      </p>
+      <p class="footer-copy">
+        © 2026 한국실버건강지도자협회 포항지부. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const fileInput = document.getElementById("galleryUpload");
+    const galleryGrid = document.getElementById("galleryGrid");
+
+    fileInput.addEventListener("change", (event) => {
+      const files = Array.from(event.target.files);
+
+      // 기존 이미지 비우고 새로 채우고 싶으면 아래 주석 해제
+      // galleryGrid.innerHTML = "";
+
+      files.forEach((file) => {
+        if (!file.type.startsWith("image/")) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const item = document.createElement("div");
+          item.className = "gallery-item";
+
+          item.innerHTML = `
+            <div class="gallery-thumb">
+              <img src="${e.target.result}" alt="${file.name}">
+            </div>
+            <div class="gallery-body">
+              <input
+                type="text"
+                class="gallery-title"
+                placeholder="제목을 입력하세요"
+              />
+              <textarea
+                class="gallery-text"
+                placeholder="게시글 / 설명을 적어주세요"
+              ></textarea>
+            </div>
+          `;
+
+          galleryGrid.appendChild(item);
+        };
+
+        reader.readAsDataURL(file);
+      });
+    });
+  </script>
+</body>
+</html>

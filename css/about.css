@@ -1,0 +1,9 @@
+.nav a[href="about.html"] {
+  font-weight: 700;
+  color: var(--main-color);
+}
+
+/* 인사말 카드 살짝 강조 */
+.about-grid .card:first-child {
+  border-left: 3px solid var(--main-color);
+}

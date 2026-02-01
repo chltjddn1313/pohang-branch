@@ -1,0 +1,9 @@
+.nav a[href="schedule.html"] {
+  font-weight: 700;
+  color: var(--main-color);
+}
+
+/* 일정 리스트 간격 */
+.schedule-list {
+  gap: 18px;
+}

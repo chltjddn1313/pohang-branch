@@ -1,0 +1,61 @@
+/* 홈 페이지 메뉴 강조 */
+.nav a[href="index.html"] {
+  font-weight: 700;
+  color: var(--main-color);
+}
+
+/* 히어로 */
+.hero {
+  background: linear-gradient(135deg, #e8f1ff, #f5fbff);
+  padding: 70px 0 60px;
+}
+
+.hero-inner {
+  text-align: left;
+}
+
+.hero h1 {
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+.hero p {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+.hero-badges {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hero-badges span {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background-color: #ffffff;
+  border: 1px solid #d1e2ff;
+  color: #2c5be5;
+}
+
+.hero-actions {
+  margin: 20px 0 8px;
+}
+
+.hero-contact {
+  font-size: 13px;
+  color: #444;
+}
+
+/* 반응형 */
+@media (min-width: 768px) {
+  .hero {
+    padding: 90px 0 70px;
+  }
+
+  .hero h1 {
+    font-size: 28px;
+  }
+}

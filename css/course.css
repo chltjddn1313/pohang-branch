@@ -1,0 +1,8 @@
+.nav a[href="course.html"] {
+  font-weight: 700;
+  color: var(--main-color);
+}
+
+.course-grid .card {
+  border-top: 3px solid #dbecc3;
+}
