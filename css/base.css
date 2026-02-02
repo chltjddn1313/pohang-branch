@@ -276,13 +276,18 @@ img {
   }
 }
 
-/* 🔽 767px 이하(휴대폰)일 때 헤더/메뉴 정리 */
+/* 📱 모바일 헤더/메뉴 정렬 개선 */
 @media (max-width: 767px) {
   .header-inner {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;   /* 가운데 정렬 */
     height: auto;
-    padding: 8px 0 10px;
+    padding: 10px 0 12px;
+    text-align: center;
+  }
+
+  .logo {
+    justify-content: center;
   }
 
   .logo-main {
@@ -294,14 +299,17 @@ img {
   }
 
   .nav {
-    margin-top: 6px;
+    margin-top: 8px;
     display: flex;
-    flex-wrap: wrap;       /* 줄 바꿈 허용 */
-    gap: 4px 10px;         /* 위아래/좌우 간격 */
+    flex-wrap: wrap;
+    justify-content: center;   /* ⭐ 핵심 */
+    gap: 6px 14px;             /* 메뉴 간격 */
   }
 
   .nav a {
-    margin: 0;             /* 왼쪽 마진 제거 */
-    font-size: 13px;       /* 글자 조금 줄이기 */
+    margin: 0;
+    font-size: 13px;
+    padding: 4px 2px;
+    white-space: nowrap;       /* 글자 줄바꿈 방지 */
   }
 }
