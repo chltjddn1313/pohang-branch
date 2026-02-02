@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>공지사항 - 한국실버건강지도자협회 포항지부</title>
+  <link rel="stylesheet" href="css/base.css" />
+  <style>
+    .notice-form {
+      margin-bottom: 20px;
+      padding: 16px;
+      background: #fff;
+      border-radius: 8px;
+      border: 1px solid #e0e6f0;
+    }
+    .notice-form input,
+    .notice-form textarea {
+      width: 100%;
+      margin-bottom: 8px;
+      padding: 6px 8px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    .notice-form button {
+      padding: 8px 14px;
+      border-radius: 4px;
+      border: none;
+      background: var(--main-color);
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .notice-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .notice-item {
+      background: #fff;
+      border-radius: 8px;
+      padding: 12px;
+      border: 1px solid #e0e6f0;
+    }
+    .notice-item h3 {
+      margin: 0 0 4px;
+      font-size: 15px;
+    }
+    .notice-date {
+      font-size: 12px;
+      color: #777;
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <div class="logo">
+        <img src="images/logo.png" alt="로고" />
+        <div class="logo-text">
+          <span class="logo-main">한국실버건강지도자협회</span>
+          <span class="logo-sub">포항지부</span>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="index.html">홈</a>
+        <a href="about.html">지부소개</a>
+        <a href="course.html">교육과정</a>
+        <a href="schedule.html">교육일정</a>
+        <a href="gallery.html">갤러리</a>
+        <a href="contact.html">오시는 길/문의</a>
+        <a href="notice.html">공지사항</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title">공지사항</h2>
+
+        <!-- 관리자용 간단 작성 폼 (지금은 비밀번호 없이 사용) -->
+        <div class="notice-form">
+          <input id="title" type="text" placeholder="제목" />
+          <textarea id="content" rows="4" placeholder="내용을 입력하세요"></textarea>
+          <button id="saveBtn">게시글 저장</button>
+          <p id="status" style="font-size:12px;color:#777;margin-top:6px;"></p>
+        </div>
+
+        <div class="notice-list" id="noticeList"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>한국실버건강지도자협회 포항지부</p>
+      <p class="footer-info">
+        포항시 남구 오천읍 정몽주로 615, 3층 · 전화 010-2264-1088
+      </p>
+      <p class="footer-copy">
+        © 2026 한국실버건강지도자협회 포항지부. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // 🔥 여기에 Render에서 받은 API 주소 입력
+    const API_BASE = "https://pohang-branch-server.onrender.com";
+
+    const titleInput = document.getElementById("title");
+    const contentInput = document.getElementById("content");
+    const saveBtn = document.getElementById("saveBtn");
+    const statusEl = document.getElementById("status");
+    const noticeList = document.getElementById("noticeList");
+
+    async function loadPosts() {
+      noticeList.innerHTML = "불러오는 중...";
+      try {
+        const res = await fetch(`${API_BASE}/posts`);
+        const posts = await res.json();
+        if (!Array.isArray(posts)) {
+          noticeList.textContent = "게시글을 불러올 수 없습니다.";
+          return;
+        }
+        if (posts.length === 0) {
+          noticeList.textContent = "등록된 공지사항이 없습니다.";
+          return;
+        }
+        noticeList.innerHTML = "";
+        posts.forEach((post) => {
+          const div = document.createElement("div");
+          div.className = "notice-item";
+          const date = new Date(post.createdAt);
+          div.innerHTML = `
+            <h3>${post.title}</h3>
+            <div class="notice-date">${date.toLocaleString("ko-KR")}</div>
+            <div>${post.content.replace(/\n/g, "<br>")}</div>
+          `;
+          noticeList.appendChild(div);
+        });
+      } catch (err) {
+        console.error(err);
+        noticeList.textContent = "공지 목록을 불러오는 중 오류가 발생했습니다.";
+      }
+    }
+
+    saveBtn.addEventListener("click", async () => {
+      const title = titleInput.value.trim();
+      const content = contentInput.value.trim();
+      if (!title || !content) {
+        statusEl.textContent = "제목과 내용을 모두 입력해 주세요.";
+        return;
+      }
+      statusEl.textContent = "저장 중...";
+      try {
+        const res = await fetch(`${API_BASE}/posts`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ title, content }),
+        });
+        if (!res.ok) throw new Error("저장 실패");
+        titleInput.value = "";
+        contentInput.value = "";
+        statusEl.textContent = "저장되었습니다.";
+        loadPosts();
+      } catch (err) {
+        console.error(err);
+        statusEl.textContent = "저장 중 오류가 발생했습니다.";
+      }
+    });
+
+    loadPosts();
+  </script>
+</body>
+</html>
